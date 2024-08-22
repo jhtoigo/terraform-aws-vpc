@@ -1,0 +1,13 @@
+name: Running tfsec
+run-name: ${{ github.actor }} Initialize repo tfsec test
+on:
+  pull_request:
+jobs:
+  tfsec:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: tfsec
+        uses: aquasecurity/tfsec-pr-commenter-action@v1.2.0
+        with:
+          github_token: ${{ github.token }}
