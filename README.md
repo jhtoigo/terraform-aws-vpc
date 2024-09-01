@@ -7,14 +7,15 @@ This Terraform module creates a Virtual Private Cloud (VPC) along with public, p
 
 ```hcl
 module "vpc" {
-  source           = "git@github.com:jhtoigo/terraform-aws-vpc.git?ref=v1.0.0"
-  cidr_block       = "10.0.0.0/16"
-  azs              = ["us-east-1a", "us-east-1b", "us-east-1c"]
-  public_subnets   = ["10.0.10.0/24", "10.0.11.0/24", "10.0.12.0/24"]
-  private_subnets  = ["10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24"]
-  database_subnets = ["10.0.30.0/24", "10.0.31.0/24", "10.0.32.0/24"]
-  tags             = { "Project" = "my-vpc", "Environment" = "dev" }
-  project_name     = "my-vpc"
+  source             = "git@github.com:jhtoigo/terraform-aws-vpc.git?ref=v1.0.0"
+  cidr_block         = "10.0.0.0/16"
+  azs                = ["us-east-1a", "us-east-1b", "us-east-1c"]
+  public_subnets     = ["10.0.10.0/24", "10.0.11.0/24", "10.0.12.0/24"]
+  private_subnets    = ["10.0.20.0/24", "10.0.21.0/24", "10.0.22.0/24"]
+  database_subnets   = ["10.0.30.0/24", "10.0.31.0/24", "10.0.32.0/24"]
+  tags               = { "Project" = "my-vpc", "Environment" = "dev" }
+  project_name       = "my-vpc"
+  nat_gateway_active = true
 }
 ```
 
@@ -67,6 +68,7 @@ No modules.
 | <a name="input_database_subnets"></a> [database\_subnets](#input\_database\_subnets) | A list of database subnets inside the VPC | `list(string)` | `[]` | no |
 | <a name="input_enable_dns_hostnames"></a> [enable\_dns\_hostnames](#input\_enable\_dns\_hostnames) | Enable DNS hostnames in the VPC | `bool` | `true` | no |
 | <a name="input_enable_dns_support"></a> [enable\_dns\_support](#input\_enable\_dns\_support) | Enable DNS support in the VPC | `bool` | `true` | no |
+| <a name="input_nat_gateway_active"></a> [nat\_gateway\_active](#input\_nat\_gateway\_active) | Create or not nat gateways | `bool` | `false` | no |
 | <a name="input_private_subnets"></a> [private\_subnets](#input\_private\_subnets) | A list of private subnets inside the VPC | `list(string)` | `[]` | no |
 | <a name="input_project_name"></a> [project\_name](#input\_project\_name) | Project Name | `string` | n/a | yes |
 | <a name="input_public_subnets"></a> [public\_subnets](#input\_public\_subnets) | A list of public subnets inside the VPC | `list(string)` | `[]` | no |
