@@ -50,3 +50,9 @@ variable "database_subnets" {
   type        = list(string)
   default     = []
 }
+
+variable "nat_gateway_active" {
+  description = "Create or not nat gateways"
+  type        = bool
+  default     = false
+}

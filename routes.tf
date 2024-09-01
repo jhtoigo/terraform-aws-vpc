@@ -22,9 +22,10 @@ resource "aws_route_table_association" "public_subnets_routes" {
 ## Private Routes
 
 resource "aws_route" "private_internet_access" {
+  count                  = var.nat_gateway_active ? 1 : 0
   route_table_id         = aws_route_table.private_internet_access_subnets.id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat.id
+  nat_gateway_id         = aws_nat_gateway.nat[0].id
 }
 
 resource "aws_route_table" "private_internet_access_subnets" {
