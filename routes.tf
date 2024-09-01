@@ -22,21 +22,22 @@ resource "aws_route_table_association" "public_subnets_routes" {
 ## Private Routes
 
 resource "aws_route" "private_internet_access" {
-  count                  = var.nat_gateway_active ? 1 : 0
-  route_table_id         = aws_route_table.private_internet_access_subnets.id
+  count                  = var.nat_gateway_active ? length(var.public_subnets) : 0
+  route_table_id         = aws_route_table.private_internet_access_subnets[count.index].id
   destination_cidr_block = "0.0.0.0/0"
-  nat_gateway_id         = aws_nat_gateway.nat[0].id
+  nat_gateway_id         = aws_nat_gateway.nat[count.index].id
 }
 
 resource "aws_route_table" "private_internet_access_subnets" {
+  count  = length(var.private_subnets)
   vpc_id = aws_vpc.this.id
   tags = {
-    Name = format("%s-private-subs", var.project_name)
+    Name = format("%s-private-%s", var.project_name, var.azs[count.index])
   }
 }
 
 resource "aws_route_table_association" "private_subnet_routes" {
   count          = max(length(var.private_subnets))
   subnet_id      = aws_subnet.private[count.index].id
-  route_table_id = aws_route_table.private_internet_access_subnets.id
+  route_table_id = aws_route_table.private_internet_access_subnets[count.index].id
 }
