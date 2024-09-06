@@ -56,3 +56,9 @@ variable "nat_gateway_active" {
   type        = bool
   default     = false
 }
+
+variable "enable_dhcp_options" {
+  description = "Create or not dhcp options"
+  type        = bool
+  default     = true
+}
