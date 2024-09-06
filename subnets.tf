@@ -5,7 +5,7 @@ resource "aws_subnet" "public" {
   availability_zone = var.azs[count.index]
   tags = merge(
     {
-      Name = format("subnet-public-%s", var.azs[count.index])
+      Name = format("%s-public-%s", var.project_name, var.azs[count.index])
     },
     var.tags
   )
@@ -18,7 +18,7 @@ resource "aws_subnet" "private" {
   availability_zone = var.azs[count.index]
   tags = merge(
     {
-      Name = format("subnet-private-%s", var.azs[count.index])
+      Name = format("%s-private-%s", var.project_name, var.azs[count.index])
     },
     var.tags
   )
@@ -31,7 +31,22 @@ resource "aws_subnet" "database" {
   availability_zone = var.azs[count.index]
   tags = merge(
     {
-      Name = format("subnet-database-%s", var.azs[count.index])
+      Name = format("%s-database-%s", var.project_name, var.azs[count.index])
+    },
+    var.tags
+  )
+}
+
+resource "aws_db_subnet_group" "database" {
+  count = length(var.database_subnets) > 0 ? 1 : 0
+
+  name        = var.project_name
+  description = "Database subnet group for ${var.project_name}"
+  subnet_ids  = aws_subnet.database[*].id
+
+  tags = merge(
+    {
+      "Name" = var.project_name
     },
     var.tags
   )
