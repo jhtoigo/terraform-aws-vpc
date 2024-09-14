@@ -62,3 +62,8 @@ variable "enable_dhcp_options" {
   type        = bool
   default     = true
 }
+
+variable "region" {
+  description = "AWS Region"
+  type        = string
+}
